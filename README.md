@@ -1,6 +1,6 @@
 # machine_learning
 
-Main Files:
+Main Files:  
   logistic_regression_test&train.ipynb  
     -Runs logistic regression on the UCSC Dataset 3 Final - Sheet1_clean.csv  
     -Splits set of 200 into 180 training and 20 testing sets  

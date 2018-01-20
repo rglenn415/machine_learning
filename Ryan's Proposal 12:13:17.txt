@@ -1,0 +1,652 @@
+﻿TIM 193 Final Project
+Monitoring and Assessment of VPN Product Problems
+Submitted by:
+Ryan Glenn
+Technology and Information Management
+
+
+Abstract
+The objective of this project is to extract well defined customer problem descriptions from the Cisco Support Community VPN posts and create a logistic regression machine learning model to predict the classification for any CSC VPN post. To accomplish this the text must be cleaned using natural language processing and represented statistically using TF-IDF, Text Frequency - Inverse Document Frequency. While creating the machine learning model also document the mathematics and learning process performed throughout the project.
+
+
+Domain Knowledge
+First I learned about common problems that occurred in VPNs from Cisco Engineers. By talking with experience Cisco engineers, we learned descriptions of each problem and the thought process to approach each different problem type. This classification knowledge helped the team create hand classified training sets of the machine learning algorithms.
+
+
+Knowledge Engineering
+Simultaneously with the Domain Knowledge, I was learning the theory behind machine learning models and how to apply machine learning with associated packages in Python.
+
+
+Cleaning Data and Representation
+After the initial hand classifications were completed in the Domain Knowledge section, the data was fed into a cleaning function. This removes items like punctuation and capitalization to create the most accurate representation using the Text Frequency-Inverse Document Frequency(TF-IDF) package. TF-IDF aims to find the importance of each word in each individual Cisco Support Community post. 
+
+
+Machine Learning
+Each Cisco Support Community post represented with TF-IDF will be fed into the machine learning model with correlated classifications to create the logistic regression model. Certain improvements were made during this process such as implementing upsampling and adjusting logistic regression parameters to improve accuracy or the model's prediction representation.
+
+
+Results
+Overall, the 5-category logistic regression using the UCSC Dataset 3 looks to promise the most consistent set of results with an accuracy of 69.6%. A possible application of this model would be to predict individual cases to help Cisco engineers with their initial evaluation of each post on the Cisco Support Community.
+
+
+
+
+Objective:
+To extract well defined customer problem descriptions from the Cisco Support Community VPN posts and create a logistic regression machine learning model to predict the classification for any CSC VPN post. To accomplish this the text must be cleaned using natural language processing and represented statistically using TF-IDF, Text Frequency - Inverse Document Frequency. While creating the machine learning model also document the mathematics and learning process performed throughout the project.
+
+
+
+
+Table of Contents
+1. Organization of This Document
+        1.1 How to Use This Document
+1. Problem Statement
+2.1 Domain Knowledge
+2.2 Knowledge Engineering
+1. Data Preprocessing
+           3.1 Data cleaning
+           3.2 Pass cleaned data through TF-IDF Vectorizer
+           3.3 Pass TF-IDF analyzed data to machine learning algorithms
+1. Logistic Regression
+4.1 Purpose 
+4.2 Classification System and Data Sets
+4.2.1 Classification system
+4.2.2 Data sets
+4.2.3 Feature Space
+4.2.4 Classification Distribution
+4.3 Improvements
+        4.3.1 Increased size of labeled data set
+        4.3.2 Logistic Regression Parameters
+4.4 Implement Binary Logistic Regression
+4.5 Upsampling
+        4.5.1 Evaluation using Upsampling
+        4.5.2 Final Result with Upsampling
+        4.5.3 Future upsampling Actions
+4.5 Metrics
+        4.6.1 K-Folds Cross Validation
+        4.6.2 Stratified K-Folds Cross Validation
+        4.6.3 Confusion Matrix
+        4.6.4 Regression Metrics
+4.6 Results
+        4.7.1 Result Structure
+        4.7.2 Important Information in Each Result Report
+4.7.3 Binary Logistic Regression 
+4.7.4 5-Category Logistic Regression
+4.7.5 Upsampled 5-Category Logistic Regression
+1. Conclusions
+5.1 Next Steps
+
+
+1.1 How to Use This Document
+1. Organization of This Document
+This section provides details on where information can be found and a general overview of the project.
+2. Problem Statement
+Define Domain Knowledge and Knowledge Engineering, work done in each of the respective areas, and the integration of Domain Knowledge into Knowledge Engineering and machine learning.
+3. Data Preprocessing
+The goal of data preprocessing is to help the machine learning algorithm differentiate between different problem types more successfully. This is done by performing processes such as removing stop words on Cisco Support Community posts and representing each post using Text Frequency-Inverse Document Frequency (TF-IDF).
+4. Logistic Regression
+The process of creating the logistic regression machine learning model. This section describes specific decisions made to improve efficiency and their corresponding  implementation process.
+5. Conclusions
+Brings together information from all other previous sections and makes conclusions on successful strategies and offers insight on next steps
+
+
+
+
+2. Problem Statement
+Here I will define Domain Knowledge and Knowledge engineering and the respective action items completed during the project. In this project the team approached the domain knowledge sections first to better understand how Cisco Engineers would diagnose a VPN problem. At the same time as the Domain Knowledge process, the team was working to understand machine learning algorithms for the Knowledge Engineering portion of the project. Then the team took the information gained from the Domain Knowledge section and applied it to the Knowledge Engineering machine learning functions to improve the accuracy at which the model can classify VPN problems.
+
+
+2.1 Domain Knowledge Purpose and Methods
+This section details how I approached collecting information and expertise on how VPN’s work and how to diagnose problems
+2.1.1 Learn About Networking
+   1. Specifically Virtual Private Networks
+2.1.2 Become Familiar with Cisco Support Community Post
+   1. Read post to understand commonly used terms and issues
+   2. What data can we feed into our future machine learning program
+2.1.3 Classify Cisco Support Community Post by Hand
+   1. Using Atri’s  5+1 classifications review 100 post and give them classifications
+   2. This data will help develop domain knowledge and create training data for future machine learning
+   3. Each member gives each post classification. When all members agree the post is given that classification. When team members disagree the post is reviewed as a group and a final classification is agreed upon. 
+2.1.4 Implement VPN
+   1. Work with UCSC networking team to implement a VPN to gain an understanding of the actual problems users face
+   2. Increase hand classified data set size
+   3. Hand classify an additional 100 posts.
+   4. The current supervised training set is 200 CSC posts
+   5. Creation of 8+1 classification
+
+
+2.2 Knowledge Engineering Purpose and Method
+Knowledge engineering refers to the programming intensive sides of this project. The Knowledge Engineering is successful when ideas and processes from Domain Knowledge are taken into account and implemented into the machine learning algorithms.
+2.2.1 Initial Data Processing
+   1. Cleaning
+   2. TF-IDF Vectorizer
+2.2.2 Logistic Regression
+   1. Goals and purpose of logistic regression
+   2. Metrics
+      1. Purpose
+      2. Cross Validation
+   1. Improvements to data set and logistic regression parameters 
+   2. Increased size of labeled data set
+   3. Changes to sklearn parameters
+   4. Implemented Upsampling
+2.2.3 Results
+   1. 5+1 classification
+
+
+3. Data Preprocessing
+Data preprocessing helps to accurately represent textual data into a machine readable representation using Text Frequency-Inverse Document Frequency (TF-IDF). This TF-IDF represent data will be feed into machine learning algorithms.
+3.1 Cleaning
+* From learning about the domain we will have an understanding on what words need to be removed and kept. This will help create a more accurate analysis
+* Actions performed on data
+   * Remove punctuation
+   * Remove stopwords
+   * Reduce word down to its stem
+3.2 Pass Cleaned Data Through TF-IDF Vectorizer
+* Gives words and their occurrences a meaningful weighted representation based on text frequency multiplied by the inverse document frequency.
+3.3 Pass TF-IDF Analyzed Data to Machine Learning Algorithms
+* For unsupervised learning we will be using 4848 correctly answered Cisco Support Community VPN posts 
+* For supervised learning we will use our 200 hand classified correctly answered Cisco Support Community VPN posts 
+   * The supervised learning data set started as 100 posts and we increased to 200 posts
+
+
+4. Logistic Regression
+4.1 Purpose 
+The goal of our Logistic Regression is to accurately categorize CSC posts into 5+1 classifications. The Logistic Regression algorithm will be created using 200 hand labeled CSC posts with a feature space of 1555 of all words used at least once across all documents.
+
+
+4.2 Classifications and Data Sets
+The classifications and data sets both come from the domain knowledge sections and this sections goes over how their information is transferred over to constructing machine learning models.
+
+
+4.2.1 Classifications
+Our current model uses 5 problem categories[1]:                        
+VPN Tunnel Not Coming Up (0)
+* This category encompasses all cases where the VPN tunnel did not come up at all.
+VPN Tunnel Flapping (1)
+* This category encompasses cases where the VPN tunnel comes up, but goes back down, and cases where the VPN tunnel ”flaps” between up and down.        
+Applications Not Working Across VPN Tunnel (2)
+* This category encompasses cases where the VPN tunnel comes up, but applications run poorly or not at all across the tunnel.                
+Customer Education/Configuration Assistance (3)
+* This category includes many different cases involving either customer education on various issues (e.g., licensing, product recommendations, product capabilities) or assistance with configuration in cases where a configuration is not already present.                                
+VPN Feature Not Working (4)
+* This category encompasses cases where some feature of the VPN (e.g., an authentication mechanism) is not working or not working properly.                                                
++ 1 Problem
+* VPN problems that cannot be categorized in the 5 categories (we did not evaluate for this, but rather removed non-VPN questions and replaced them).                                                  
+4.2.2 Datasets
+UCSC Dataset 2 (n=100)
+This data set was created by taking 100 randomly selected, correctly answered VPN posts from the Cisco Support Community. Each post was individually classified by every team member and then a final classification was agreed upon by the team. This classification data will be use to train and test the machine learning model.
+
+
+UCSC Dataset 3 (n=200)
+UCSC Dataset 3 was improved from UCSC Dataset 2 by adding 100 more  randomly selected, correctly answered VPN posts from the Cisco Support Community. The same process of each post being individually classified by every team member and then the team making a final classification was followed. By increasing the size of our training dataset, our goals were to increase the representation of lower occurring classifications to create a more balanced data set.
+
+
+4.2.3 Feature Space                
+The supervised learning algorithms were run on both n = 100 and n = 200 hand labeled CSC posts. We report results of the n = 200 data set only. These data sets had feature spaces of 943 and 1, 555 words respectively (each used at least twice across all documents). Note that when we split into training and test sets, our training data has a smaller feature space. [2]
+
+
+4.2.4 Classification Distribution
+Category
+	UCSC Dataset 2 (n=100)
+	UCSC Dataset 3 (n=200)
+	0
+	9
+	17
+	1
+	3
+	6
+	2
+	6
+	25
+	3
+	74
+	136
+	4
+	8
+	16
+	Total
+	100
+	200
+	
+
+                                
+4.3 Improvements
+Improvements made here were specifically aimed at increasing the accuracy of the logistic regression algorithm, specifically at increasing the precision and recall of the lowest occurring classes.
+
+
+4.3.1 Increased Size of Labeled Data Set
+To improve results an additional 100 randomly sampled CSC posts were hand labeled and reviewed to improve our supervised data set to 200. 
+
+
+This change showed marginal improvements to accuracy, but was in the right direction of increasing the supervised data set size. This increased the feature size from 943 with 100 posts to 1,555 with 200 posts. The increase in feature size is expected and in the future can be an indicator on when we have selected the proper supervised data size. Large gains in feature size are expected when increasing from 100 to 200, but we once we are receiving marginal increases in features we may have the proper amount of CSC posts that properly describe the vocabulary used on the forum.
+
+
+The classification process, along with the classification assistance of Jay and Wen from Cisco TAC engineers, helped to improve the team's and my personal understanding on the heuristics used by Cisco TAC engineers used to classify. This team understanding and communication with Cisco TAC engineers was funneled into a domain knowledge report on recreating our process in other domains besides VPNs.
+
+
+4.3.2 Logistic Regression Parameters 
+These changes affect how the model weights the distribution of classifications of VPN problems. Changes made here help to balance a multinomial 5 classification data set and several low occurring classifications.
+
+
+4.3.2.1 Added Balanced Class Weighting
+Changed class weighting to balanced to better compensate for the majority of customer education responses.
+
+
+4.3.2.2 Changed the C (Inverse of regularization strength)
+The number was increased from the default float of 1 to 1000. This made the regularization weaker and improved the results of the logistic regression from 69% to 72% accuracy.
+
+
+4.4 Implement Binary Logistic Regression
+Because of the disproportionate amount of customer education classifications, setting up a binary logistic regression using customer education versus all was suggested. The accuracy of the binary logistic regression would show the possible upper bound of accuracy for our 5+1 multinomial logistic regression.  This upper bound can give us a realistic goal to aim for when improving the accuracy of the logistic regression algorithm.
+Below are the results of our logistic regression with 3 being customer education and 1 being all else. The binary logistic regression accuracy is 76% which indicates that currently 76% accuracy is the best accuracy we can expect from the 5+1 multinomial logistic regression.
+
+4.5 Upsampling
+The upsampling process was implemented to artificially increase the number of low occurring classifications. By increasing the amount of low occurrence classifications in the training set, we give the logistic regression algorithm a more balanced data set to classify VPN problems more accurately.
+ 
+4.5.1 Evaluation using Upsampling
+1. Import cleaned data
+   * Imported 200 CSC posts 5+1 classification data set UCSC Dataset 3 Final - Sheet1_clean.csv to dataframe.
+1. Split into train and test
+   * Split data frame of cleaned 5+1 data into training and testing set.
+1. Represent data in TF-IDF format
+   * Represent cleaned data set using TF-IDF.
+1. Upsample training set
+   * Upsampling creates extra training set examples for minority classes from the similarities in TF-IDF representations for a classification.
+   * Upsampled minority classes to the largest classification in training set 
+1. Create Logistic Regression model
+   * Use TF-IDF represented upsampled and cleaned data set to create model for logistic regression.
+1. Predict using test data set
+   * Since the testing data set is split before upsampling it contains to upsampled cases
+   * Accuracy is tested using single fold validation
+
+
+4.5.2 Final Result with Upsampling
+Due to time constraints, Our machine learning experts recommended that I implement upsampling correctly, but use a single fold validation to check accuracy. This does not give the same accuracy as a stratified 10 fold validation, but still gives a general idea of what the accuracy of the logistic regression with an upsampled data set is.
+
+
+4.5.3 Future Upsampling Actions
+Edit the number of upsampled posts for classification based on existing distribution and revise classification system and remove the vpn tunnel flapping classification. Add all vpn tunnel flapping classifications to vpn tunnel not coming up.
+
+
+4.6 Metrics
+Metrics allow us to represent how successfully the machine learning model is classifying VPN problem types.
+ 
+4.6.1 K-Folds Cross Validation
+K-Folds Cross-Validation uses the Logistic Regression model and  iterates over the Cisco Support Community data set k times, in our machine learning program k equals 10, and test every document in the corpus in the training and testing sets. This averages the performance of the UCSC team’s supervised learning algorithms over 10 iterations and outputs a percent of correctly classified cases.
+
+
+4.6.2 Stratified K-Folds Cross Validation
+Based on accuracy results and the high occurrence of the customer education classification, Dilan suggested we look at Stratified K-Folds Cross-Validation. Stratification works to ensure each fold represents the statistical makeup of our classifications.
+
+
+For Stratified Cross-Validation the number of folds cannot exceed the frequency of the class with the lowest frequency. In our case that is 3 for the tunnel flapping classification in our CSC data set. As this value changes with more labeled data we will be able to increase the number of folds appropriately.
+
+
+4.6.3 Confusion Matrix
+Implemented confusion matrix using stratified k-folds. This will allow us to see where our classifier is predicting labels correctly and also incorrectly. For example the confusion matrix allowed me to see that our lowest occurring classifications were commonly selecting the highest occurring customer education classification. Bringing this specific misclassification to our machine learning experts allowed them to recommend upsampling to help create a more balanced data set.
+
+
+4.6.4 Regression Metrics
+At the same time as the confusion matrix and accuracy report, other metrics such as R2, mean squared error, and mean average error were implemented. The original idea of implementing these metrics were to test the accuracy of the regression model. Later when reviewing results with Tyler and Dilan, they brought up that including these regression metrics was not standard in the machine learning field and were then removed.
+
+
+4.7 Results
+Testing different configurations of logistic regression models allowed us to choose the most successful model for future use.
+
+
+4.7.1 Result Structure
+Binary Logistic Regression
+* UCSC Dataset 2 (n=100)
+* UCSC Dataset 3 (n=200)
+5-Category Logistic Regression
+* UCSC Dataset 2 (n=100)
+* UCSC Dataset 3 (n=200)
+Upsampled 5-Category Logistic Regression
+* UCSC Dataset 2 (n=100)
+* UCSC Dataset 3 (n=200)
+
+
+4.7.2 Important Information in Each Result Report
+Overall there are 3 important metrics to read and compare from report to report
+Stratified K Folds
+* The number of folds correlates to the lowest occurring classification in the data set. This number can be found in the n_splits parameter at the top of each report.
+Accuracy Percent
+* The accuracy percent tells us how many classifications are correctly categorized by using the Stratified K Folds algorithm (4.6.2). 
+Confusion Matrix
+* Correctly categorized results can be found in a diagonal pattern from left to right.
+
+
+4.7.3 Binary Logistic Regression
+The goal of binary logistic regression is to see the upper bound of accuracy for logistic regression with the correlating data set while only predicting if a Cisco Support Community post is either a Customer Education problem type or one of the other 4 problem types. 
+
+
+Binary Logistic Regression Classification Numbers
+3 = Customer Education
+1 = All Other Problem Types
+
+
+Binary Logistic Regression (n=100)
+  
+
+Binary Logistic Regression (n=200)
+  
+
+
+
+Binary Logistic Regression Analysis
+The results of the binary logistic regression help to show the upper bounds of the 5-category logistic regression. Because of the high occurrence of the customer education classification (3) the logistic regression algorithm must be able to differentiate between customer education and all other classifications at a high accuracy. The binary logistic regression directly shows the algorithm’s ability to differentiate between customer education and all other classes based off the 200 CSC data set.
+
+
+The results of the binary logistic regression are consistent with the results to the 5-category logistic regression with the upper bound being somewhere between 78% to 82% while the results have been anywhere from 69%-72%.
+
+
+4.7.4 5-Category Logistic Regression
+The main machine learning model to classify Cisco Support Community posts into 5-Categories.
+
+
+5-Category Logistic Regression Classification Numbers
+0 = VPN Tunnel Not Coming Up
+1 = VPN Tunnel Flapping
+2 = VPN Feature Feature Not Working
+3 = Customer Education
+4 = Application Not Working Across VPN Tunnel Problems
+
+
+5-Category Logistic Regression (n=100)
+  
+
+5-Category Logistic Regression (n=200)
+  
+
+5-Category Logistic Regression (C=1,000, n=200)
+
+
+  
+
+5-Category Logistic Regression Analysis
+The 5-category logistic regression results were the most consistent results due to a well balanced distribution of correctly predicted classifications. Although primarily selecting the customer education (3) classification, the algorithm shows that it can select other classifications and that possibly with more training data could improve recall and precision rates for minority classes such as the 1, 2, and 4 classifications.  
+
+
+Increasing the C value helped to improve the results by decreasing the regularization to the dataset and saw roughly a 2% increase in overall accuracy.
+
+
+The largest issue is the nonexistent recall of the VPN tunnel flapping classification (1) due to its low occurrence rate in the data set. This issue was attempted to be addressed with the implementation of upsampling in the next section.
+
+
+4.7.5 Upsampled 5-Category Logistic Regression
+Upsampling was applied to the 5-Category Logistic Regression to attempt to counteract classifications with low occurrence rates and improve accuracy.
+
+
+Upsampled 5-Category Logistic Regression Classification Numbers
+0 = VPN Tunnel Not Coming Up
+1 = VPN Tunnel Flapping
+2 = VPN Feature Feature Not Working
+3 = Customer Education
+4 = Application Not Working Across VPN Tunnel Problems
+
+
+Upsampled 5-Category Logistic Regression (n=200)
+  
+
+Upsampled 5-Category Logistic Regression Analysis 
+The largest change that occurred in the upsampling results was an increased emphasis in selecting the customer education (3) classification with a recall of 1. 
+
+
+Due to time restraint, single fold validation was performed to assess accuracy. In this example the accuracy is 80%, but with another run the accuracy could be much lower. I would expect that if a stratified cross validation was performed for all 200 posts we would see a decrease in accuracy to around the occurrence of 74%.
+
+
+5. Conclusion
+Here are my conclusions from the report. From the beginning of this project I had very little knowledge pertaining to VPNs, but by the end I was successfully able to diagnose problems using the 5-category system. This was done through multiple steps explained in the Domain Knowledge, but culminateed in several key steps. One important step of the process was to converse with VPN domain experts. By speaking with expert engineers who have been working in the field for 10 plus years, we were able to model their approach to solving problems. This model was applied when the UCSC team was had classifying Cisco Support Community posts for the training sets. Gaining VPN knowledge was a small step in this project, but paid dividends throughout the rest of the project by improving the hand classifications therefore increasing the accuracy of the machine learning algorithms. 
+
+
+Data preprocessing assisted machine learning by allowing the logistic regression model to differentiate between classes as successfully as possible. Data preprocessing was implemented as a standard machine learning, but we returned to the Domain Knowledge section to improve the accuracy. Removing certain words specific to VPN like “up” and “down” from VPN from the vocabulary we were able to improve the data process for our specific domain. 
+
+
+
+
+Several different configurations of the Logistic Regression Algorithm were performed. Overall, the 5-category logistic regression using the UCSC Dataset 3 looks to promise the most consistent set of results with an accuracy of 69.6%. A possible application of this model would be to predict individual cases to help Cisco engineers with their initial evaluation of each post on the Cisco Support Community.
+
+
+The results of the binary logistic regression help to show the upper bounds of the 5-category logistic regression. Because of the high occurrence of the customer education classification (3) the logistic regression algorithm must be able to differentiate between customer education and all other classifications at a high accuracy. The binary logistic regression directly shows the algorithm’s ability to differentiate between customer education and all other classes based off the 200 CSC data set. Even just differentiating between Customer Education and all other problem types could be useful for Cisco engineers while evaluating Cisco Support Community posts.
+
+
+While upsampling looks promising, more work needs to be put into creating a more balanced selection as the algorithm is selecting the most frequent classification. Upsampling could prove more useful when there are more training examples for minority classifications. 
+
+
+The 5-category logistic regression using the UCSC Dataset 3 with a changed C parameter to 1000 has higher accuracy rate, but from suggestions of consultants on the project that we do not edit the C parameter until we have a larger data set or a more successful logistic regression model.
+         
+5.1 Next Steps                
+In this section, we describe various recommended steps for further research in the VPN domain.[3]
+
+
+Upsampling
+* Further attempts at upsampling should mitigate the imbalance of our data set.        
+Increase Size of Data Set
+* To improve results, we suggest increasing our labeled dataset to n = 500 or higher. This change should show improvements to accuracy.                
+Data Processing
+* Test the effectiveness of different stemmers or lemmatizers.
+* Test words to include or exclude from the stopwords list
+
+
+Schedule:
+Date
+	Task
+	Deliverables
+	Due date
+	7/10-7/15
+	Understanding the four components of the current definition of a well-defined VPN description based on Atri’s work 
+
+
+	Increasing domain knowledge
+	Continuing task
+	
+
+	Getting the UCSC team CCOids in order to access the Spark and Box collaboration tools
+	CCOids
+	7/15
+	
+
+	Understanding the data format and structure of the Cisco Support Community dataset
+	Practice files that show knowledge of data manipulation
+	7/15
+	7/17-7/21
+	apply universal engineering analysis techniques (e.g. FAST/FMEA) to create a formal domain structure for the VPN problems
+	FAST and FMEA graphs
+	7/21
+	7/24-7/28
+	Manually classified the top 50 most viewed successfully closed problems using Atri’s 6+1.
+	50 labeled vpn cases  
+	7/28
+	
+
+	Create requirements for word processing
+	List of punctuations to remove
+
+
+Questions for Atri
+	7/28
+	7/31-8/4
+	Complete word cleaning
+and implement TF-IDF
+	Functioning code that performs all cleaning actions and represents data in TF-IDF format
+	8/4
+	
+
+	Review 50 CSC posts and labeled by hand with Atri’s 5+1 
+	50 labeled CSC posts
+	8/4
+	8/7-8/11
+	Research logistic regression and practice implementation
+	Example implementation of logistic regression
+	8/11
+	
+
+	Review 50 CSC posts and labeled by hand with Atri’s 5+1. This makes 100 total
+	100 labeled CSC posts
+	8/18
+	
+
+	Adjust TF-IDF settings to reduce feature space
+	Reduction in feature space from 4700 to 10000
+	8/18
+	8/13-8/18
+	Set up a VPN with the Cisco UCSC e-support team
+	Addressed networking issues in room. 
+	8/18
+	8/21-8/25
+	Add to Synthesis Document
+	Added outline to synthesis
+	ongoing
+	
+
+	Implement metrics for logistic regression 
+	Metrics including Mean squared Errors and R^2
+	8/25
+	
+
+	Create readme to better understand the role of each python file
+	readme
+	8/25
+	8/28-9/1
+	Logistic regression mathematics in context of our objective
+	
+
+	Ongoing
+	
+
+	TF-IDF mathematics in context of our objective
+	First draft of math ( Olivia and I are collaborating on this)
+	ongoing
+	9/5-9/8
+	Implement and record process taken to implement stratified k-folds
+	Implemented stratified k-folds, but implementation needs to be adjusted
+	9/11
+	
+
+	Classify 100 CSC vpn posts
+	
+
+	On going
+	9/11-9/15
+	Implement Decision tree classifier
+
+
+	Decision tree graph for unsupervised learning
+	9/15 , but still working with the results
+	
+
+	Implemented upsampling
+	Upsampled data set to train the logistic regression classifier
+	9/15
+	
+
+	Implemented a -1 classification
+	Logistic regression results with 4+1 classification
+	9/15
+	
+
+	Binary logistic regression classifier
+	Logistic regression results with 5+1 classification
+	9/15
+	9/18-9/22
+	Work on individual report
+	Individual report
+	On going
+	
+
+	Work on Synthesis Report
+	Synthesis report
+	On going
+	9/25-9/29
+	Work on individual report
+	Individual report
+	On going
+	
+
+	Work on Synthesis Report
+	Synthesis report
+	On going
+	10/2-10/6
+	Finalize process for upsampling
+	Upsampling process in individual report
+	10/6
+	10/9-10/13
+	Send email to Tyler on Upsampling process
+	Email contaning upsampling process
+	10/13
+	10/16
+	Receive feedback on Upsampling process
+	Improved report with advice from Tyler
+	10/18
+	
+
+Fall Plan:
+This plan is my current plan for Fall quarter work on this project. Additional action items will be added to schedule below.
+Date
+	Week
+	Tasks
+	Deliverables
+	10/6/17
+	1
+	Finalize process for Upsampling
+	
+
+	10/13/17
+	2
+	Finish proposal
+	Proposal
+	10/27/17
+	3
+	Work on Phase 1
+	Phase 1
+	11/3/17
+	4
+	Work on Phase 2
+	
+
+	11/10/17
+	5
+	Work on Phase 2
+	
+
+	11/17/17
+	6
+	Work on Phase 2
+	Phase 2
+	11/24/17
+	7
+	Work on Final Draft
+	
+
+	12/1/17
+	8
+	Work on Final Draft
+	
+
+	12/8/17
+	9
+	Work on Final Draft
+	Final Draft
+	12/15/17
+	10
+	Finish Final Report
+	Final Report
+	
+
+Resources
+UCSC
+* 1 Faculty Research Supervisor (Desa): 1 month summer support
+* 1 Graduate Student: Sean Laney
+* 2 Undergraduate Students: Ryan Glenn and Olivia Ahmed
+
+
+Cisco: 
+* Stakeholders/SMEs: Hal Kalechofsky, Wes Sisk, Dmitry Goloubew, Tyler Munger
+* Access to CSC data and computing resources
+References
+[1] 4.2.3 from Machine Learning in the Network Troubleshooting Domain
+[2] 5.2.2 from Machine Learning in the Network Troubleshooting Domain
+[3] 7.1 from Machine Learning in the Network Troubleshooting Domain
+
+
+(work) beef up conclusion

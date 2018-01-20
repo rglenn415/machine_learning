@@ -1,6 +1,6 @@
 # machine_learning
 
-Report Files:
+Report Files:  
 Ryan's Proposal 12:13:17.txt  
     -Contains detailed breakdown of work done over the project
     

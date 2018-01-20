@@ -1,5 +1,9 @@
 # machine_learning
 
+Report Files:
+Ryan's Proposal 12:13:17.txt
+    -Contains detailed breakdown of work done over the project
+    
 Main Files:  
   logistic_regression_test&train.ipynb  
     -Runs logistic regression on the UCSC Dataset 3 Final - Sheet1_clean.csv  

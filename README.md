@@ -1,5 +1,5 @@
 # machine_learning
-Project Abstract:  
+#### Project Abstract:  
 The objective of this project is to extract well defined customer problem descriptions from the Cisco Support Community VPN posts and create a logistic regression machine learning model to predict the classification for any CSC VPN post. To accomplish this the text must be cleaned using natural language processing and represented statistically using TF-IDF, Text Frequency - Inverse Document Frequency. While creating the machine learning model also document the mathematics and learning process performed throughout the project.
 
 Domain Knowledge

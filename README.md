@@ -49,7 +49,7 @@ Ryan's Proposal 12:13:17.txt
     -creates a random sample of correctly answered VPN posts after 2016  
     
     
-Data Sets:  
+#### Data Sets:  
   UCSC Dataset 3 Final - Sheet1.csv  
     -uncleaned data set contaning 200 posts  
     -used only in the cleaning file  

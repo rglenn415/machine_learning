@@ -17,18 +17,18 @@ Each Cisco Support Community post represented with TF-IDF will be fed into the m
 Results
 Overall, the 5-category logistic regression using the UCSC Dataset 3 looks to promise the most consistent set of results with an accuracy of 69.6%. A possible application of this model would be to predict individual cases to help Cisco engineers with their initial evaluation of each post on the Cisco Support Community.
 
-Report Files:  
+#### Report Files:  
 Ryan's Proposal 12:13:17.txt  
     -Contains detailed breakdown of work done over the project
     
-Main Files:  
+#### Main Files:  
   logistic_regression_test&train.ipynb  
     -Runs logistic regression on the UCSC Dataset 3 Final - Sheet1_clean.csv  
     -Splits set of 200 into 180 training and 20 testing sets  
     -Represents data using TF-IDF 
     -Uses 6 fold stratified cross validation and displays results in confusion matrix and accuracy report   
   
-  logistic_regression_upsampled.ipynb  
+   logistic_regression_upsampled.ipynb  
     -Runs logistic regression on the UCSC Dataset 3 Final - Sheet1_clean.csv  
     -Splits set of 200 into 180 training and 20 testing sets  
     -Represents with TF-IDF  
@@ -36,7 +36,7 @@ Main Files:
     -Runs a single fold validation for accuracy  
     
     
-Supplementary Files:  
+#### Supplementary Files:  
   supervised_cleaning.ipynb  
     -Cleans UCSC Dataset 3 Final - Sheet1.csv to  
       --tokenize  
